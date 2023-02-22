@@ -1,4 +1,3 @@
-const config = require("../config/auth.config");
 const db = require("../models");
 const express = require('express');
 const app = express();
@@ -9,10 +8,9 @@ const User = db.user;
 const Enterprise = db.enterprise;
 
 var jwt = require("jsonwebtoken");
-var bcrypt = require("bcryptjs");
 
 
-exports.creatEnterprise = (req, res) => {
+exports.createnterprise = (req, res) => {
   const enterprise = new Enterprise({
     nit: req.body.nit,
     name: req.body.name,
@@ -29,15 +27,14 @@ exports.creatEnterprise = (req, res) => {
     if (req.body.user) {
       User.find(
         {
-          id: { $in: req.body.user }
+          username: { $in: req.body.user }
         },
         (err, user) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
-
-          enterprise.user = user;
+          enterprise.user = user._id;
           enterprise.save(err => {
             if (err) {
               res.status(500).send({ message: err });

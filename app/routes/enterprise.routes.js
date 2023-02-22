@@ -1,4 +1,4 @@
-const { verifyEnt } = require("../middlewares");
+const { verifyEnt, authJwt } = require("../middlewares");
 const controller = require("../controllers/enterprise.controller");
 
 var express = require('express')
