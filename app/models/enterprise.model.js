@@ -13,6 +13,12 @@ const Enterprise = mongoose.model(
             city: String
         }
     ],
+    inventories: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Inventory"
+        }
+      ],
     phone: String
   })
 );
