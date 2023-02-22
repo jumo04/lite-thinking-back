@@ -31,86 +31,85 @@ exports.creatEnterprise = (req, res) => {
         {
           id: { $in: req.body.user }
         },
-        (err, roles) => {
+        (err, user) => {
           if (err) {
             res.status(500).send({ message: err });
             return;
           }
 
-          user.roles = roles.map(role => role._id);
-          user.save(err => {
+          enterprise.user = user;
+          enterprise.save(err => {
             if (err) {
               res.status(500).send({ message: err });
               return;
             }
 
-            res.send({ message: "User was registered successfully!" });
+            res.send({ message: "Enterprise was registered successfully!" });
           });
         }
       );
-    } else {
-      Role.findOne({ name: "user" }, (err, role) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        user.roles = [role._id];
-        user.save(err => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          res.send({ message: "User was registered successfully!" });
-        });
-      });
-    }
+    } 
   });
 };
 
-exports.signin = (req, res) => {
-  User.findOne({
-    username: req.body.username
-  })
-    .populate("roles", "-__v")
-    .exec((err, user) => {
+exports.update = (req, res) => {
+    Enterprise.findOne({
+     nit: req.body.nit
+  }).exec((err, enterprise) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
 
-      if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+      if (!enterprise) {
+        return res.status(404).send({ message: "Enterprise Not found." });
       }
 
-      var passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      );
-
-      if (!passwordIsValid) {
-        return res.status(401).send({
-          accessToken: null,
-          message: "Invalid Password!"
-        });
+      if(req.body.nit){
+        enterprise.nit= req.body.nit;
+      }
+      if(req.body.name){
+        enterprise.name= req.body.name;
+      }
+      if(req.body.address){
+        enterprise.address= req.body.address;
+      }
+      if(req.body.phone){
+        enterprise.phone= req.body.phone;
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400 // 24 hours
+      enterprise.save(err => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        res.send({ message: "Enterprise was update successfully!" });
+
       });
+    });
+};
 
-      var authorities = [];
 
-      for (let i = 0; i < user.roles.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+exports.delete = (req, res) => {
+    Enterprise.findOne({
+     nit: req.body.nit
+  }).exec((err, enterprise) => {
+      if (err) {
+        res.status(500).send({ message: err });
+        return;
       }
-      res.status(200).send({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        roles: authorities,
-        accessToken: token
+
+      if (!enterprise) {
+        return res.status(404).send({ message: "Enterprise Not found." });
+      }
+
+      enterprise.delete(err => {
+        if (err) {
+          res.status(500).send({ message: err });
+          return;
+        }
+        res.send({ message: "Enterprise was delete successfully!" });
+
       });
     });
 };
