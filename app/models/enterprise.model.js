@@ -6,13 +6,7 @@ const Enterprise = mongoose.model(
     nit: String,
     name: String,
     user: mongoose.Schema.Types.ObjectId,
-    address: [
-        {
-            street: String,
-            neibor: String,
-            city: String
-        }
-    ],
+    address: String,
     inventories: [
         {
           type: mongoose.Schema.Types.ObjectId,

@@ -77,6 +77,7 @@ function initial() {
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/enterprise.routes')(app);
+require('./app/routes/article.routes')(app);
 
 
 // set port, listen for requests

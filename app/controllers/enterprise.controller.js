@@ -23,11 +23,10 @@ exports.createnterprise = (req, res) => {
       res.status(500).send({ message: err });
       return;
     }
-
     if (req.body.user) {
       User.find(
         {
-          username: { $in: req.body.user }
+          username: { $in: req.body.user.username }
         },
         (err, user) => {
           if (err) {

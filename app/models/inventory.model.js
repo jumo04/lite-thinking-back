@@ -7,7 +7,8 @@ const Inventory = mongoose.model(
     articles: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Article"
+          ref: "Article",
+          amount: String
         }
       ]
   })

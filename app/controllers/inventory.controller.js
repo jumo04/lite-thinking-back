@@ -9,38 +9,59 @@ const Article = db.article;
 
 var jwt = require("jsonwebtoken");
 
-exports.createArticle = (req, res) => {
-  const article = new Article({
-    name: req.body.name,
-    ref: req.body.ref,
-    model: req.body.model,
-    value: req.body.value
+exports.createInventory = (req, res) => {
+  const inventory = new Inventory({
+    name: req.body.name
   });
-
     if (req.body.ref) {
-        Article.find(
+        Inventory.find(
         {
-            ref: { $in: req.body.ref }
+            name: { $in: req.body.name }
         },
-        (err, article) => {
+        (err, inventory) => {
             if (err) {
                 res.status(500).send({ message: err });
             return;
 
         }
-            res.send({ message: "Article already exits!" });
-          }
+            res.send({ message: "Inventory already exits!" });
+        }
         );
     }
-        
-    article.save((err, article) => {
+    if (req.body.articles) {
+    Article.find(
+        {
+        ref: { $in: req.body.articles }
+        },
+        (err, articles) => {
         if (err) {
-         res.status(500).send({ message: err });
-        return;
+            res.status(500).send({ message: err });
+            return;
         }
-        res.send({ message: "Article was create successfully!" });
-    });
 
+        inventory.articles = articles.map(article => articles._id);
+        inventory.save(err => {
+            if (err) {
+            res.status(500).send({ message: err });
+            return;
+            }
+
+            res.send({ message: "Inventory was created successfully!" });
+        });
+        }
+    );
+    }else{
+        inventory.save((err, article) => {
+            if (err) {
+             res.status(500).send({ message: err });
+            return;
+            }
+            res.send({ message: "Inventory was create successfully!" });
+        });
+    
+    }
+        
+    
     
 };
 
@@ -55,7 +76,7 @@ exports.upgrade = (req, res) => {
          }
    
          if (!article) {
-           return res.status(404).send({ message: "Article Not found." });
+           return res.status(404).send({ message: "Article Not found in the inventory." });
          }
 
          article.amount = article.amount + 1;
@@ -69,9 +90,9 @@ exports.upgrade = (req, res) => {
          });
 }
 
-exports.update = (req, res) => {
-    Article.findOne({
-     ref: req.body.ref
+exports.addArticle = (req, res) => {
+    Inventory.findOne({
+     name: req.body.name
     }).exec((err, article) => {
       if (err) {
         res.status(500).send({ message: err });
@@ -109,26 +130,32 @@ exports.update = (req, res) => {
     });
 };
 
+exports.upamount = (req, res) => {
+    // aca la logica para aumentar la cantidad de cada articulo 
+};
+   
+exports.pdf = (req, res) => {
+ //la logica para descargar pdf
+};
 
 exports.delete = (req, res) => {
-    Article.findOne({
+    Inventory.findOne({
      ref: req.body.ref
-  }).exec((err, article) => {
+  }).exec((err, inventory) => {
       if (err) {
         res.status(500).send({ message: err });
         return;
       }
 
-      if (!article) {
-        return res.status(404).send({ message: "Article Not found." });
+      if (!inventory) {
+        return res.status(404).send({ message: "Inventory Not found." });
       }
-
-      article.delete(err => {
+      inventory.delete(err => {
         if (err) {
           res.status(500).send({ message: err });
           return;
         }
-        res.send({ message: "Article was delete successfully!" });
+        res.send({ message: "Inventory was delete successfully!" });
 
       });
     });
