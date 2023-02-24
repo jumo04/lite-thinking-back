@@ -1,14 +1,6 @@
 const { verifyEnt, authJwt } = require("../middlewares");
 const controller = require("../controllers/enterprise.controller");
 
-var express = require('express')
-var bodyParser = require('body-parser')
- 
-var app = express()
-
-var jsonParser = bodyParser.json()
-app.use(express.urlencoded({ extended: true }));
-
 
 module.exports = function(app) {
   app.use(function(req, res, next) {
@@ -19,11 +11,12 @@ module.exports = function(app) {
     next();
   });
 
+  app.put("/api/delete", [authJwt.verifyToken, authJwt.isAdmin],  controller.del);
   app.post(
     "/api/auth/createnterprise", [authJwt.verifyToken],[verifyEnt.checkDuplicateNameOrNit,verifyEnt.checkUserExisted],
     controller.createnterprise
   );
 
   app.post("/api/auth/update", [authJwt.verifyToken, authJwt.isAdmin], controller.update);
-  app.post("/api/auth/delete", [authJwt.verifyToken, authJwt.isAdmin], controller.delete);
+  
 };

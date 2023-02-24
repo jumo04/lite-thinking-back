@@ -85,8 +85,27 @@ exports.update = (req, res) => {
     });
 };
 
+exports.findEnterprise = (req, res) => {
+  Enterprise.findOne({
+   nit: req.body.nit
+}).exec((err, enterprise) => {
+    if (err) {
+      res.status(500).send({ message: err });
+      return;
+    }
+    if(enterprise) {
+      if(enterprise.isDelete){
+        return res.status(404).send({ message: "Enterprise Not found." });
+      }
+      console.log(enterprise);
+      res.json(enterprise);
+    }else{
+      return res.status(404).send({ message: "Enterprise Not found." });
+    }
+  });
+};
 
-exports.delete = (req, res) => {
+exports.del = (req, res) => {
     Enterprise.findOne({
      nit: req.body.nit
   }).exec((err, enterprise) => {
@@ -95,17 +114,24 @@ exports.delete = (req, res) => {
         return;
       }
 
-      if (!enterprise) {
-        return res.status(404).send({ message: "Enterprise Not found." });
-      }
+      console.log(enterprise);
 
-      enterprise.delete(err => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
+      if(enterprise) {
+        if(enterprise.isDelete){
+          return res.status(404).send({ message: "Enterprise Not found or It was deleted before." });
         }
-        res.send({ message: "Enterprise was delete successfully!" });
-
-      });
+        enterprise.isDelete = true;
+        enterprise.save(err => {
+          if (err) {
+                res.status(500).send({ message: err });
+                return;
+          }
+          //endig change the isDetele variable to true 
+          res.send({ message: "Enterprise was delete successfully!" });
+        });
+      }else{
+        return res.status(404).send({ message: "Enterprise Not found or It was deleted before." });
+      }
+      
     });
 };

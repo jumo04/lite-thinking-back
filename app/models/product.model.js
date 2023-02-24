@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
-const Article = mongoose.model(
-  "Article",
+const Product = mongoose.model(
+  "Product",
   new mongoose.Schema({
     name: String,
     ref: String,
@@ -11,4 +11,4 @@ const Article = mongoose.model(
   })
 );
 
-module.exports = Article;
+module.exports = Product;

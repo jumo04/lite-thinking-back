@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(process.env.MONGODB_URI || `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -79,6 +79,9 @@ require('./app/routes/user.routes')(app);
 require('./app/routes/enterprise.routes')(app);
 require('./app/routes/article.routes')(app);
 
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

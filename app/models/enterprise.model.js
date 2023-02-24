@@ -7,12 +7,7 @@ const Enterprise = mongoose.model(
     name: String,
     user: mongoose.Schema.Types.ObjectId,
     address: String,
-    inventories: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Inventory"
-        }
-      ],
+    isDelete: {type: Boolean, default: false},
     phone: String
   })
 );

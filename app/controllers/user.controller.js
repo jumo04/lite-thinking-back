@@ -13,7 +13,7 @@ exports.allAccess = (req, res) => {
   
   exports.userBoard = (req, res) => {
     
-    const enter =  Enterprise.find({}, function (err, data) {
+    const enter =  Enterprise.find({isDelete: false}, function (err, data) {
       // docs is an array of all docs in collection
       console.log(data);
       res.json(data);
@@ -22,7 +22,7 @@ exports.allAccess = (req, res) => {
   };
   
   exports.adminBoard = (req, res) => {
-    const enter =  Enterprise.find({}, function (err, data) {
+    const enter =  Enterprise.find({isDelete: false}, function (err, data) {
       // docs is an array of all docs in collection
       
       res.json(data);
