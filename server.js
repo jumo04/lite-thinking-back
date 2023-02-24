@@ -52,7 +52,7 @@ db.mongoose
   });
 
 var corsOptions = {
-  origin: "http://localhost:8082/"
+  origin: "http://localhost:8082"
 };
 
 app.use(cors(corsOptions));
