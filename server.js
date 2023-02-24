@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 db.mongoose
-  .connect(process.env.MONGODB_URI || `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(process.env.ORMONGO_URL || `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
