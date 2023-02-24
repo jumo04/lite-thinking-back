@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Ensure you have run 'npm install mongodb'
 
-var username = 'YOUR_USERNAME';
-var password = 'YOUR_PASSWORD';
+var username = 'root';
+var password = '12345678';
 var hosts = 'iad2-c14-1.mongo.objectrocket.com:52441,iad2-c14-2.mongo.objectrocket.com:52441,iad2-c14-0.mongo.objectrocket.com:52441';
 var database = 'lite_db';
 var options = '?replicaSet=a110b1fdbb8c45a0abd6396479cbe897';
