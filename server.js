@@ -30,7 +30,7 @@ db.mongoose
   });
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "https://main.d2atobya8uav3e.amplifyapp.com/"
 };
 
 app.use(cors(corsOptions));
