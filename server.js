@@ -1,5 +1,6 @@
 const express = require("express");
 var bodyParser = require('body-parser')
+var MongoClient = require('mongodb').MongoClient;
 
 const cors = require("cors");
 
@@ -14,6 +15,27 @@ const dbConfig = require("./app/config/db.config");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// Ensure you have run 'npm install mongodb'
+
+var username = 'YOUR_USERNAME';
+var password = 'YOUR_PASSWORD';
+var hosts = 'iad2-c14-1.mongo.objectrocket.com:52441,iad2-c14-2.mongo.objectrocket.com:52441,iad2-c14-0.mongo.objectrocket.com:52441';
+var database = 'lite_db';
+var options = '?replicaSet=a110b1fdbb8c45a0abd6396479cbe897';
+var connectionString = 'mongodb://' + username + ':' + password + '@' + hosts + '/' + database + options;
+
+MongoClient.connect(connectionString, function(err, db) {
+    if (db) {
+        db.close();
+    }
+    if (err) {
+        console.log('Error: ', err);
+    } else {
+        console.log('Connected!');
+        process.exit();
+    }
+});
 
 db.mongoose
   .connect(process.env.ORMONGO_URL || `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
