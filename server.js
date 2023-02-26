@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 db.mongoose
-  .connect(process.env.ORMONGO_URL || `mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -30,10 +30,23 @@ db.mongoose
   });
 
 var corsOptions = {
-  origin: ["http://localhost:8082", "http://localhost:8083", "https://main.d2d5zxiqav1vu1.amplifyapp.com/"]
+  origin: ["http://localhost:8081", "https://main.d2d5zxiqav1vu1.amplifyapp.com/"]
 };
 
-app.use(cors(corsOptions));
+
+var allowedOrigins = ['http://localhost:8081',
+                      'https://main.d2d5zxiqav1vu1.amplifyapp.com/'];app.use(cors({
+  origin: function(origin, callback){    // allow requests with no origin 
+    // (like mobile apps or curl requests)
+    if(!origin) return callback(null, true);    if(allowedOrigins.indexOf(origin) === -1){
+      var msg = 'The CORS policy for this site does not ' +
+                'allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }    return callback(null, true);
+  }
+}));
+
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
