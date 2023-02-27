@@ -29,16 +29,16 @@ db.mongoose
     process.exit();
   });
 
-// var corsOptions = {
-//   origin: ["http://localhost:8081", "https://main.d2d5zxiqav1vu1.amplifyapp.com/"]
-// };
+var corsOptions = {
+  origin: ["http://localhost:8081", "https://main.d2d5zxiqav1vu1.amplifyapp.com/"]
+};
 
 
 var allowedOrigins = ['http://localhost:8081',
                       'https://main.d2d5zxiqav1vu1.amplifyapp.com'];
 
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
 app.use(express.json());
