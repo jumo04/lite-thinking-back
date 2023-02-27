@@ -70,11 +70,10 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-  console.log(req.body);
+  console.log(req.body.email);
   User.findOne({
     email: req.body.email
-  })
-    .populate("roles", "-__v")
+  }).populate("roles", "-__v")
     .exec((err, user) => {
       if (err) {
         res.status(500).send({ message: err });
