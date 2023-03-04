@@ -5,9 +5,9 @@ const Product = mongoose.model(
   new mongoose.Schema({
     name: String,
     ref: String,
-    model: String,
     amount: String,
-    value: String
+    value: String,
+    isDelete: {type: Boolean, default: false},
   })
 );
 

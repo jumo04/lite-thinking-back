@@ -7,7 +7,7 @@ db.mongoose = mongoose;
 
 db.user = require("./user.model");
 db.product = require("./product.model");
-db.inventory = require("./inventory.model");
+// db.inventory = require("./inventory.model");
 db.enterprise = require("./enterprise.model");
 db.role = require("./role.model");
 

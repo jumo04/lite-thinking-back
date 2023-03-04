@@ -2,6 +2,7 @@ const express = require("express");
 var bodyParser = require('body-parser')
 var MongoClient = require('mongodb').MongoClient;
 
+
 const cors = require("cors");
 
 const app = express();
@@ -82,7 +83,7 @@ function initial() {
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/enterprise.routes')(app);
-require('./app/routes/article.routes')(app);
+require('./app/routes/product.routes')(app);
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();

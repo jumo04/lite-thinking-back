@@ -4,10 +4,11 @@ const Inventory = mongoose.model(
   "Invenroy",
   new mongoose.Schema({
     name: String,
-    articles: [
+    enterprise: mongoose.Schema.Types.ObjectId, 
+    products: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Article",
+          ref: "Product",
           amount: String
         }
       ]
