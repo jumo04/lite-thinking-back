@@ -24,4 +24,5 @@ module.exports = function(app) {
   app.put("/admin/product/update", [authJwt.verifyToken, authJwt.isAdmin], controller.update);
   app.put("/admin/product/downgrade", [authJwt.verifyToken, authJwt.isAdmin], controller.downgrade);
   app.put("/admin/product/delete", [authJwt.verifyToken, authJwt.isAdmin], controller.delete);
+  app.get("/admin/product/products", [authJwt.verifyToken, authJwt.isAdmin], controller.getAll);
 };

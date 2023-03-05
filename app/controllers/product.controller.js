@@ -26,11 +26,11 @@ exports.createProduct = (req, res) => {
           if(req.body.ref){
             product.ref= req.body.ref;
           }
-          if(req.body.amount){
-            product.amount= req.body.amount;
+          if(req.body.qty){
+            product.qty= req.body.qty;
           }
-          if(req.body.value){
-            product.value= req.body.value;
+          if(req.body.price){
+            product.price= req.body.price;
           }
     
           product.save(err => {
@@ -49,11 +49,10 @@ exports.createProduct = (req, res) => {
         const product = new Product({
           name: req.body.name,
           ref: req.body.ref,
-          amount: req.body.amount,
-          value: req.body.value
+          qty: req.body.qty,
+          price: req.body.price
         });
 
-        console.log(product);
         product.save((err, product) => {
             if (err) {
             res.status(500).send({ message: err });
@@ -81,13 +80,13 @@ exports.upgrade = (req, res) => {
            return res.status(404).send({ message: "product Not found." });
          }
 
-         product.amount =String(parseInt(product.amount) + 1);
+         product.qty =String(parseInt(product.qty) + 1);
          product.save(err => {
             if (err) {
                 res.status(500).send({ message: err });
                 return;
             }
-            res.send({ message: "product exits, the amount its upgrades successfully!" });
+            res.send({ message: "product exits, the qty its upgrades successfully!" });
             });
          });
 }
@@ -105,15 +104,24 @@ exports.downgrade = (req, res) => {
          return res.status(404).send({ message: "Product Not found." });
        }
 
-       product.amount =String(parseInt(product.amount) - 1);
+       product.qty =String(parseInt(product.qty) - 1);
        product.save(err => {
           if (err) {
               res.status(500).send({ message: err });
               return;
           }
-          res.send({ message: "product exits, the amount its upgrades successfully!" });
+          res.send({ message: "product exits, the qty its upgrades successfully!" });
           });
        });
+}
+
+
+exports.getAll = (req, res) => {
+  const enter =  Product.find({isDelete: false}, function (err, data) {
+    // docs is an array of all docs in collection
+    console.log(data);
+    res.json(data);
+  });
 }
 
 exports.update = (req, res) => {
@@ -135,11 +143,11 @@ exports.update = (req, res) => {
       if(req.body.ref){
         product.ref= req.body.ref;
       }
-      if(req.body.amount){
-        product.amount= req.body.amount;
+      if(req.body.qty){
+        product.qty= req.body.qty;
       }
-      if(req.body.value){
-        product.value= req.body.value;
+      if(req.body.price){
+        product.price= req.body.price;
       }
 
       product.save(err => {

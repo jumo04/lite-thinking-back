@@ -5,8 +5,8 @@ const Product = mongoose.model(
   new mongoose.Schema({
     name: String,
     ref: String,
-    amount: String,
-    value: String,
+    qty: String,
+    price: String,
     isDelete: {type: Boolean, default: false},
   })
 );
