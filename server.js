@@ -25,7 +25,7 @@ db.mongoose
     initial();
   })
   .catch(err => {
-    console.error("Connection error", err);
+    console.error("Connection error", err); 
     process.exit();
   });
 
@@ -38,7 +38,7 @@ var allowedOrigins = ['http://localhost:8081',
                       'https://main.d2d5zxiqav1vu1.amplifyapp.com'];
 
 
-app.use(cors(corsOptions));
+app.use(cors(allowedOrigins));
 
 // parse requests of content-type - application/json
 app.use(express.json());

@@ -9,7 +9,7 @@
         ],
         "Condition": {
             "StringEquals": {
-                "ec2:osuser": "ami-username"
+                "ec2:osuser": "juanmo"
             }
         }
       },
